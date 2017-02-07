@@ -18,28 +18,92 @@
     }
 
     // Regular
+    console.log('Hello')
 
     // Interpolated
+    console.log('Hello I am a %s!', '💩')
+    // Though nowadays usually:
+    const variable = '🍄'
+    console.log(`Hello I am a ${variable}!`)
 
-    // Styled
+    // Styled - for browsers
+    console.log('%c Hello I have great style', 'font-size: 50px; color: red; text-shadow: 5px 5px 0 #BADA55')
 
     // warning!
+    // adds a yellow warning sign ⚠ and stack trace to where it was called
+    console.warn('Oh nooooo!')
 
     // Error :|
+    // adds an red error sign ❌ and stack trace to where it was called
+    console.error('HOLY SHIT!')
 
     // Info
+    // adds a blue info sign ℹ
+    console.info('Lalala infomation')
 
     // Testing
+    // console.asserts() outputs the second argument if the test returns false
+    const p = document.querySelector('p')
+    console.assert(p.classList.contains('ouch'), 'I did not find the class on the p!')
 
-    // clearing
+    // clearing the console
+    // console.clear()
 
     // Viewing DOM Elements
+    // logs the html
+    console.log(p)
+    // logs the dropdown object
+    console.dir(p)
 
     // Grouping together
+    dogs.forEach(dog => {
+      // single line
+      // console.log(`This is ${dog.name}.`, `He is ${dog.age} years old.`, `He is ${dog.age * 7} dog years old.`)
 
-    // counting
+      // multiline
+      // console.log(`This is ${dog.name}.`)
+      // console.log(`He is ${dog.age} years old.`)
+      // console.log(`He is ${dog.age * 7} dog years old.`)
+
+      // grouped (browser only)
+      // open group:
+      console.group(`${dog.name}`)
+      // or collapsed group:
+      // console.groupCollapsed(`${dog.name}`)
+        console.log(`This is ${dog.name}.`)
+        console.log(`He is ${dog.age} years old.`)
+        console.log(`He is ${dog.age * 7} dog years old.`)
+      console.groupEnd(`${dog.name}`)
+    })
+
+    // counting (browser only)
+    console.count('Hetty')
+    console.count('Hetty')
+    console.count('Hetty')
+    console.count('Hetty')
+    console.count('Froukje')
+    console.count('Froukje')
+    console.count('Froukje')
+    console.count('Hetty')
+    console.count('Froukje')
+    console.count('Froukje')
+    console.count('Hetty')
+    console.count('Froukje')
+    console.count('Froukje')
 
     // timing
+    console.time('fetching data')
+
+    // fetch is browser only
+    fetch('https://api.github.com/users/wesbos')
+      .then(data => data.json())
+      .then(data => {
+        console.timeEnd('fetching data')
+      })
+
+    // table yay! shows a table for arrays of objects
+    // (with dragable column widths wow - browser only)
+    console.table(dogs)
 
   </script>
 </body>
