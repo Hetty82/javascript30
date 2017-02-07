@@ -15,7 +15,57 @@
     </ul>
   </form>
 <script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json'
+const cities = []
+
+// use fetch to return a promise object
+fetch(endpoint)
+  // fetch the data as a response object and call json() on it to convert it
+  .then(blob => blob.json())
+  // use spread to push each item as an individual argument:
+  .then(data => cities.push(...data))
+
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+}
+
+function findMatches(searchTerm, cities) {
+  return cities.filter(place => {
+    // put regex in const so we can use a variable inside it
+    const regex = new RegExp(searchTerm, 'gi')
+
+    // check if searchterm is matched in city or state
+    return place.city.match(regex) || place.state.match(regex)
+  })
+}
+
+function displayMatches() {
+  const searchTerm = this.value
+  const searchResults = findMatches(searchTerm, cities)
+  const html = searchResults.map(place => {
+    // wrap search term in higlighted span
+    const regex = new RegExp(searchTerm, 'gi')
+    const cityName = place.city.replace(regex, `<span class="hl">${searchTerm}</span>`)
+    const stateName = place.state.replace(regex, `<span class="hl">${searchTerm}</span>`)
+
+    // create list item nodes
+    return `
+      <li>
+        <span class="name">${cityName}, ${stateName}</span>
+        <span class="population">${numberWithCommas(place.population)}</span>
+      </li>
+    `
+  }).join('')
+  // add items to suggestions li
+  suggestions.innerHTML = html
+}
+
+const searchInput = document.querySelector('.search')
+const suggestions = document.querySelector('.suggestions')
+
+searchInput.addEventListener('change', displayMatches)
+searchInput.addEventListener('keyup', displayMatches)
 
 </script>
   </body>
