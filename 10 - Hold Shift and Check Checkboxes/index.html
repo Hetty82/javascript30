@@ -66,44 +66,71 @@
   -->
   <div class="inbox">
     <div class="item">
-      <input type="checkbox">
+      <input type="checkbox" class="one">
       <p>This is an inbox layout.</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input type="checkbox" class="two">
       <p>Check one item</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input type="checkbox" class="three">
       <p>Hold down your Shift key</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input type="checkbox" class="four">
       <p>Check a lower item</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input type="checkbox" class="five">
       <p>Everything inbetween should also be set to checked</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input type="checkbox" class="six">
       <p>Try do it with out any libraries</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input type="checkbox" class="seven">
       <p>Just regular JavaScript</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input type="checkbox" class="eight">
       <p>Good Luck!</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input type="checkbox" class="nine">
       <p>Don't forget to tweet your result!</p>
     </div>
   </div>
 
 <script>
+const checkboxes = document.querySelectorAll('.inbox input');
+let lastChecked
+
+checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck))
+
+function handleCheck(e) {
+    // check if shift was pressed
+    // AND if it was a check, not an uncheck
+    let inBetween = false
+
+    if(e.shiftKey && this.checked) {
+      // loop through all checkboxes
+      checkboxes.forEach(checkbox => {
+        // switch the flag if inbetween the current or the last checked
+        if (checkbox === this || checkbox === lastChecked) {
+          inBetween = !inBetween
+        }
+        // if we are in between: set checked to true
+        if (inBetween) {
+          checkbox.checked = true
+        }
+      })
+    }
+    // set last checked
+    lastChecked = this
+}
+
 </script>
 </body>
 </html>
