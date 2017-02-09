@@ -23,14 +23,25 @@
       <input type="text" name="item" placeholder="Item Name" required>
       <input type="submit" value="+ Add Item">
     </form>
+    <footer>
+      <button class="clear-all">Clear All</button>
+      <button class="check-all">Check All</button>
+      <button class="uncheck-all">Uncheck All</button>
+    </footer>
   </div>
 
 <script>
+  // --- variable initializers ---
   const addItems = document.querySelector('.add-items')
   const itemsList = document.querySelector('.plates')
   const input = document.querySelector('input[name=item]')
-  const items = JSON.parse(localStorage.getItem('items')) || []
+  let items = JSON.parse(localStorage.getItem('items')) || []
 
+  const clearAllButton = document.querySelector('.clear-all')
+  const checkAllButton = document.querySelector('.check-all')
+  const uncheckAllButton = document.querySelector('.uncheck-all')
+
+  // --- function declarations ---
   function addItem(e) {
     e.preventDefault()
     const text = input.value
@@ -65,16 +76,40 @@
     const index = node.dataset.index
     items[index].done = !items[index].done
 
-    // populate list and save to localStorage
+    updateList()
+  }
+
+  function clearAll() {
+    items = []
+    updateList()
+  }
+
+  function checkAll() {
+    items.forEach(item => item.done = true)
+    updateList()
+  }
+
+  function uncheckAll(e) {
+    items.forEach(item => item.done = false)
+    updateList()
+  }
+
+  // populate list and save to localStorage
+  function updateList() {
     populateList(items, itemsList)
     localStorage.setItem('items', JSON.stringify(items))
   }
 
+  // --- event handlers ---
   // add item to items array
   addItems.addEventListener('submit', addItem)
   // change the 'done' status when item is (un)checked
   itemsList.addEventListener('click', toggleDone)
+  clearAllButton.addEventListener('click', clearAll)
+  checkAllButton.addEventListener('click', checkAll)
+  uncheckAllButton.addEventListener('click', uncheckAll)
 
+  // --- on load function calls ---
   populateList(items, itemsList)
 
 
